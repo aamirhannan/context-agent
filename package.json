@@ -12,7 +12,7 @@
     "dev": "node --watch src/server.js",
     "demo": "./scripts/demo.sh",
     "db:seed": "node db/seed.js",
-    "test": "node --test test/"
+    "test": "node --test test/*.test.js"
   },
   "keywords": [],
   "author": "",
