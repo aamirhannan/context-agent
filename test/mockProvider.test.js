@@ -58,3 +58,16 @@ test('both providers expose the same interface surface', () => {
     Object.keys(openai).sort(),
   );
 });
+
+test('classifyIntent matches on word boundaries, not substrings', async () => {
+  const names = ['career', 'relationship', 'health', 'finance', 'daily_summary', 'general'];
+  // "interesting" contains "rest" — a bare substring check classified this as health
+  const r = await mock.classifyIntent('Tell me something interesting', names);
+  assert.equal(r.intent, 'general');
+});
+
+test('classifyIntent still matches stems like summar -> summarize', async () => {
+  const names = ['career', 'relationship', 'health', 'finance', 'daily_summary', 'general'];
+  const r = await mock.classifyIntent('Please summarize my chart', names);
+  assert.equal(r.intent, 'daily_summary');
+});

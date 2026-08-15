@@ -57,8 +57,13 @@ async function classifyIntent(question, intentNames) {
     ['finance', ['money', 'invest', 'wealth', 'savings']],
     ['daily_summary', ['today', 'week', 'summar', 'prioriti', 'focus']],
   ];
+  // Leading word boundary, not substring: bare `includes` matched 'rest' inside
+  // "interesting" and classified it as health. A trailing boundary is deliberately
+  // omitted so stems like 'summar' still match "summarize".
+  const mentions = (w) => new RegExp(`\\b${w}`, 'i').test(lower);
+
   for (const [intent, words] of leanings) {
-    if (intentNames.includes(intent) && words.some((w) => lower.includes(w))) {
+    if (intentNames.includes(intent) && words.some(mentions)) {
       return { intent, score: 0.75 };
     }
   }

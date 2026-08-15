@@ -22,6 +22,15 @@ function createApp(deps) {
     app.get('/debug/requests/:requestId', require('./routes/requests')(deps));
   }
 
+  // Cache invalidation, so a demo can show real degradation rather than a warm
+  // cache masking a dead upstream. Unauthenticated, so it stays out of production.
+  if (process.env.NODE_ENV !== 'production') {
+    app.post('/debug/cache/flush', (_req, res) => {
+      deps.cache.clear();
+      res.json({ flushed: true, cache: deps.cache.stats() });
+    });
+  }
+
   app.use((_req, res) => res.status(404).json({ error: 'not found' }));
 
   // The single place where an error becomes a status code.
