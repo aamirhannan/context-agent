@@ -12,6 +12,20 @@ ask() {
     -d "{\"userId\":\"$2\",\"question\":\"$3\"}"
 }
 
+# Fail loudly if something else is on the port, rather than feeding HTML to a JSON parser.
+preflight() {
+  local what=$1 url=$2 probe=$3
+  if ! curl -sf "$url$probe" | grep -q '"status":"ok"\|"tithi"'; then
+    echo "ERROR: no $what at $url" >&2
+    echo "       Something else may be holding the port. Start it, or override:" >&2
+    echo "         PORT=3100 npm start   /   MOCKS_PORT=4100 npm run mocks" >&2
+    echo "         API=http://localhost:3100 MOCKS=http://localhost:4100 npm run demo" >&2
+    exit 1
+  fi
+}
+preflight "context engine" "$API" "/health"
+preflight "mock upstreams" "$MOCKS" "/panchang"
+
 py() { python3 -c "$1"; }
 
 echo "═══════════════════════════════════════════════════════════════"

@@ -25,6 +25,14 @@ npm test          # 107 tests
 npm run demo      # personalization, context optimization, degradation
 ```
 
+If ports 3000 or 4000 are taken, override them — everything else follows:
+
+```bash
+MOCKS_PORT=4100 npm run mocks
+PORT=3100 UPSTREAM_BASE_URL=http://localhost:4100 npm start
+API=http://localhost:3100 MOCKS=http://localhost:4100 npm run demo
+```
+
 <details>
 <summary><b>With a real LLM</b></summary>
 
