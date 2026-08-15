@@ -71,3 +71,27 @@ test('detectIntent rejects an LLM answer that is not a configured intent', async
   assert.equal(r.intent, 'general');
   assert.equal(r.method, 'fallback');
 });
+
+test('a rule tie escalates instead of picking by declaration order', () => {
+  // "work" scores 1 for career, "marriage" scores 1 for relationship.
+  // Declaration order must not silently decide this.
+  assert.equal(detectByRules('Will my marriage work out?', intentsConfig), null);
+});
+
+test('an unambiguous winner still resolves by rule', () => {
+  const r = detectByRules('Will my marriage survive this year?', intentsConfig);
+  assert.equal(r.intent, 'relationship');
+  assert.equal(r.method, 'rule');
+});
+
+test('a pattern hit outweighs a single competing keyword', () => {
+  // career scores 3 (kw:job + pattern chang.*job), health scores 1 (kw:sick).
+  const r = detectByRules('Should I change my job? I am sick of it.', intentsConfig);
+  assert.equal(r.intent, 'career');
+});
+
+test('a genuine multi-domain question escalates rather than guessing', () => {
+  // "change my job for my health" scores 3 for career AND 3 for health.
+  // Neither answer is right on its own, so the rule tier declines to choose.
+  assert.equal(detectByRules('Should I change my job for my health?', intentsConfig), null);
+});

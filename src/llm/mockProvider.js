@@ -62,12 +62,23 @@ async function classifyIntent(question, intentNames) {
   // omitted so stems like 'summar' still match "summarize".
   const mentions = (w) => new RegExp(`\\b${w}`, 'i').test(lower);
 
-  for (const [intent, words] of leanings) {
-    if (intentNames.includes(intent) && words.some(mentions)) {
-      return { intent, score: 0.75 };
-    }
-  }
-  return { intent: 'general', score: 0.55 };
+  // Score every lean and take the winner, rather than returning the first match —
+  // first-match-wins made the answer depend on the order of this array.
+  const scored = leanings
+    .filter(([intent]) => intentNames.includes(intent))
+    .map(([intent, words]) => ({ intent, hits: words.filter(mentions).length }))
+    .filter((s) => s.hits > 0);
+
+  if (scored.length === 0) return { intent: 'general', score: 0.55 };
+
+  const top = Math.max(...scored.map((s) => s.hits));
+  const leaders = scored.filter((s) => s.hits === top);
+
+  // Still ambiguous after scoring: 'general' is the safe answer, since it pulls
+  // every available context item rather than committing to the wrong domain.
+  if (leaders.length > 1) return { intent: 'general', score: 0.5 };
+
+  return { intent: leaders[0].intent, score: 0.75 };
 }
 
 module.exports = { name: 'mock', generate, classifyIntent };

@@ -12,7 +12,8 @@
     "dev": "node --watch src/server.js",
     "demo": "./scripts/demo.sh",
     "db:seed": "node db/seed.js",
-    "test": "LOG_LEVEL=silent node --test test/*.test.js"
+    "test": "LOG_LEVEL=silent node --test test/*.test.js",
+    "ask": "./scripts/ask.sh"
   },
   "keywords": [],
   "author": "",
