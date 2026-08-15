@@ -227,11 +227,13 @@ function toPlanResponse(ctx, trace) {
         .map((n) => ({ label: n.label, reason: n.reason })),
     ],
     degradations: ctx.degradations,
+    // Context figures and whole-prompt figures are different denominators;
+    // name them so nobody reads a 56% reduction against a 249-token prompt.
     promptPreview: {
-      estTokens: ctx.prompt.estTokens,
-      availableTokens: ctx.selection.budget.available,
-      sentTokens: ctx.selection.budget.sent,
-      reductionPct: ctx.selection.budget.reductionPct,
+      contextAvailableTokens: ctx.selection.budget.available,
+      contextSentTokens: ctx.selection.budget.sent,
+      contextReductionPct: ctx.selection.budget.reductionPct,
+      fullPromptEstTokens: ctx.prompt.estTokens,
     },
     trace,
   };

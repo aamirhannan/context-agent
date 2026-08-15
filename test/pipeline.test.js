@@ -84,7 +84,8 @@ test('the debug body matches the assignment contract and adds detail', async () 
   assert.ok(body.selectedContext.includes('10th House'));
   assert.ok(body.expectedConfidence);
   assert.ok(Array.isArray(body.trace));
-  assert.ok(body.promptPreview.reductionPct > 0);
+  assert.ok(body.promptPreview.contextReductionPct > 0);
+  assert.ok(body.promptPreview.fullPromptEstTokens > 0);
 });
 
 test('debug output equals the plan half of a full run', async () => {
