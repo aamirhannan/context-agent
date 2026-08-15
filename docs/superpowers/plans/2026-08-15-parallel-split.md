@@ -196,6 +196,8 @@ These need every lane present, so they are NOT parallelized:
 3. **Never** run `npm install` or `npm pkg set`. Dependencies and scripts are already set.
 4. **Never** edit a file outside your Owns list.
 5. Commit on your own branch only. Do **not** merge, do **not** push, do **not** rebase.
+   **No AI attribution in commit messages** — no `Co-Authored-By`, no "Generated with", no bot
+   trailers. This repository is submitted as an assignment; commits are authored by the candidate.
 6. Two architectural rules the final verification greps for — do not break them:
    - Nothing under `src/engine/` may `require` from `src/gateway/`, `src/llm/`, `src/store/`, or `express`.
    - No `if (intent === ...)` branching anywhere in `src/` — behaviour comes from config.
