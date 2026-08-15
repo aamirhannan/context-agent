@@ -1,0 +1,32 @@
+{
+  "user_101": {
+    "lagna": "Libra",
+    "moonSign": "Scorpio",
+    "currentDasha": { "mahadasha": "Rahu", "antardasha": "Mars" },
+    "houses": {
+      "6": { "lord": "Jupiter", "strength": "Average" },
+      "7": { "lord": "Mars", "strength": "Weak" },
+      "10": { "lord": "Moon", "strength": "Strong" }
+    }
+  },
+  "user_202": {
+    "lagna": "Cancer",
+    "moonSign": "Pisces",
+    "currentDasha": { "mahadasha": "Jupiter", "antardasha": "Saturn" },
+    "houses": {
+      "6": { "lord": "Saturn", "strength": "Strong" },
+      "7": { "lord": "Saturn", "strength": "Average" },
+      "10": { "lord": "Mars", "strength": "Weak" }
+    }
+  },
+  "user_303": {
+    "lagna": "Aries",
+    "moonSign": "Leo",
+    "currentDasha": { "mahadasha": "Venus", "antardasha": "Mercury" },
+    "houses": {
+      "6": { "lord": "Mercury", "strength": "Weak" },
+      "7": { "lord": "Venus", "strength": "Strong" },
+      "10": { "lord": "Saturn", "strength": "Average" }
+    }
+  }
+}

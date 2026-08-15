@@ -1,0 +1,21 @@
+# Response configuration derived from the user profile.
+# These shape HOW the model answers; they never appear as astrological facts.
+
+tone:
+  motivational: "Encouraging and action-oriented. Speak in second person. Open with an affirmation."
+  neutral: "Balanced and factual. Neither alarming nor effusive."
+  direct: "Blunt and concise. Lead with the conclusion, then the reasoning."
+
+language:
+  en: English
+  hi: Hindi
+
+length:
+  free: 120
+  premium: 250
+
+# Applied per-field when the User service is unreachable or returns an unknown value.
+defaults:
+  language: en
+  tone: neutral
+  subscription: free

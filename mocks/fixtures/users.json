@@ -1,0 +1,26 @@
+{
+  "user_101": {
+    "id": "user_101",
+    "name": "Aarav Sharma",
+    "language": "en",
+    "subscription": "premium",
+    "tonePreference": "motivational",
+    "birthDetails": { "date": "1997-08-15", "time": "09:35", "place": "Delhi" }
+  },
+  "user_202": {
+    "id": "user_202",
+    "name": "Meera Iyer",
+    "language": "hi",
+    "subscription": "free",
+    "tonePreference": "neutral",
+    "birthDetails": { "date": "1992-03-02", "time": "18:10", "place": "Chennai" }
+  },
+  "user_303": {
+    "id": "user_303",
+    "name": "Rohan Gupta",
+    "language": "en",
+    "subscription": "premium",
+    "tonePreference": "direct",
+    "birthDetails": { "date": "2001-11-27", "time": "04:45", "place": "Pune" }
+  }
+}

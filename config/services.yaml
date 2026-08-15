@@ -1,0 +1,42 @@
+# Per-upstream resilience and caching policy.
+# Retries apply to 5xx and timeouts only — a 404 will still be a 404 on the third attempt.
+
+budgetTokens: 400
+
+escalation:
+  enabled: true   # one bounded retry when the model reports sufficient=false; max depth 1
+
+services:
+  user:
+    path: "/users/{userId}"
+    timeoutMs: 500
+    retries: 2
+    backoffMs: 100
+    cacheTtlMs: 300000        # 5 min
+    cacheStaleMaxMs: 3600000  # serve stale up to 1h if the upstream is down
+
+  kundli:
+    path: "/kundli/{userId}"
+    timeoutMs: 800
+    retries: 2
+    backoffMs: 100
+    cacheTtlMs: 3600000       # 1h — a birth chart barely changes
+    cacheStaleMaxMs: 86400000
+
+  horoscope:
+    path: "/horoscope/{userId}"
+    timeoutMs: 600
+    retries: 2
+    backoffMs: 100
+    cacheTtlMs: 21600000      # 6h — regenerated daily
+    cacheStaleMaxMs: 86400000
+
+  # Takes no userId: identical for every user on a given date, so it is cached
+  # globally by date rather than per user.
+  panchang:
+    path: "/panchang"
+    timeoutMs: 400
+    retries: 1
+    backoffMs: 100
+    cacheTtlMs: 21600000
+    cacheStaleMaxMs: 86400000

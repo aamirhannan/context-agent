@@ -1,0 +1,90 @@
+# The complete context universe. Every item that can ever reach the LLM lives here.
+#
+# id        stable identifier — intents.yaml references these, never paths or service names
+# label     human name; appears in sourcesUsed and in the debug endpoint
+# source    which upstream provides it
+# path      extraction path within that upstream's payload ("." means the whole payload)
+# render    how it is serialised into the prompt; {var} interpolates from the resolved value,
+#           or {value} when the resolved value is a scalar
+# estTokens rough cost, used for the prompt budget
+#
+# Deliberately absent: user.birthDetails — it is PII and it is redundant, since the kundli is
+# the derived output of that birth data.
+
+items:
+  - id: kundli.lagna
+    label: "Lagna"
+    source: kundli
+    path: "lagna"
+    render: "Lagna (ascendant): {value}"
+    estTokens: 8
+
+  - id: kundli.moonSign
+    label: "Moon Sign"
+    source: kundli
+    path: "moonSign"
+    render: "Moon sign: {value}"
+    estTokens: 8
+
+  - id: kundli.dasha
+    label: "Current Dasha"
+    source: kundli
+    path: "currentDasha"
+    render: "Current Dasha - Mahadasha {mahadasha}, Antardasha {antardasha}"
+    estTokens: 20
+
+  - id: kundli.house.6
+    label: "6th House"
+    source: kundli
+    path: "houses.6"
+    render: "6th House - lord {lord}, strength {strength}"
+    estTokens: 16
+
+  - id: kundli.house.7
+    label: "7th House"
+    source: kundli
+    path: "houses.7"
+    render: "7th House - lord {lord}, strength {strength}"
+    estTokens: 16
+
+  - id: kundli.house.10
+    label: "10th House"
+    source: kundli
+    path: "houses.10"
+    render: "10th House - lord {lord}, strength {strength}"
+    estTokens: 16
+
+  - id: horoscope.career
+    label: "Career Horoscope"
+    source: horoscope
+    path: "career"
+    render: "Career outlook: {value}"
+    estTokens: 20
+
+  - id: horoscope.finance
+    label: "Finance Horoscope"
+    source: horoscope
+    path: "finance"
+    render: "Finance outlook: {value}"
+    estTokens: 20
+
+  - id: horoscope.health
+    label: "Health Horoscope"
+    source: horoscope
+    path: "health"
+    render: "Health outlook: {value}"
+    estTokens: 20
+
+  - id: horoscope.relationship
+    label: "Relationship Horoscope"
+    source: horoscope
+    path: "relationship"
+    render: "Relationship outlook: {value}"
+    estTokens: 20
+
+  - id: panchang.today
+    label: "Today's Panchang"
+    source: panchang
+    path: "."
+    render: "Today - Tithi {tithi}, Nakshatra {nakshatra}, Yoga {yoga}, Karana {karana}"
+    estTokens: 28
