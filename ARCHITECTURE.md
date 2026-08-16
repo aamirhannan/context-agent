@@ -123,20 +123,20 @@ erDiagram
         text birth_place
     }
     KUNDLI {
-        text user_id PK_FK
+        text user_id PK, FK
         text lagna
         text moon_sign
         text mahadasha
         text antardasha
     }
     KUNDLI_HOUSES {
-        text user_id PK_FK
+        text user_id PK, FK
         int house PK
         text lord
         text strength
     }
     HOROSCOPE {
-        text user_id PK_FK
+        text user_id PK, FK
         date for_date PK
         text career
         text finance
