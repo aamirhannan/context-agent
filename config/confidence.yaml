@@ -1,0 +1,26 @@
+# score = w.intent*intentConfidence + w.primaryCoverage*primaryCoverage + w.sourceHealth*sourceHealth
+# then capped, then banded. Every value here is tunable without touching code.
+
+weights:
+  intentConfidence: 0.4
+  primaryCoverage: 0.4
+  sourceHealth: 0.2
+
+# 'llm' is absent on purpose — an LLM classification uses the model's own score.
+intentScoreByMethod:
+  rule: 1.0
+  fallback: 0.4
+
+sourceHealthScore:
+  fresh: 1.0
+  stale: 0.6
+  missing: 0.0
+
+caps:
+  fallbackIntent: 0.7      # we did not understand the question -> never claim HIGH
+  insufficient: 0.5        # the model itself reported the context was not enough
+  noPrimaryCoverage: 0.4   # none of the intent's primary context resolved
+
+bands:
+  high: 0.8
+  medium: 0.5

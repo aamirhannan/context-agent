@@ -1,0 +1,67 @@
+# Intent -> context mapping. Adding an intent is a block here and zero lines of code.
+#
+# match.keywords  whole-word matches, 1 point each
+# match.patterns  regexes, 2 points each (stronger evidence)
+# primary         must-have context; never dropped for budget; drives primaryCoverage
+# secondary       nice-to-have; trimmed from the tail when over budget
+# exclude         deliberate, contrastive exclusions — this is what the debug endpoint reports
+#                 as excludedContext. Exclude always wins over primary/secondary.
+#
+# 'general' is the fallback and is never matched by rule.
+
+threshold: 0.6
+
+intents:
+  career:
+    match:
+      keywords: [job, career, work, promotion, salary, boss, office, business, interview, appraisal, resign]
+      patterns: ["chang.*job", "switch.*compan", "quit.*work", "new.*role"]
+    primary:   [horoscope.career, kundli.house.10]
+    secondary: [kundli.dasha, panchang.today]
+    exclude:   [horoscope.relationship]
+
+  relationship:
+    match:
+      keywords: [relationship, partner, marriage, love, spouse, wife, husband, girlfriend, boyfriend, romance, dating]
+      patterns: ["my.*partner", "get.*married"]
+    primary:   [horoscope.relationship, kundli.house.7]
+    secondary: [kundli.moonSign, kundli.dasha]
+    exclude:   [horoscope.career]
+
+  health:
+    match:
+      keywords: [health, fitness, illness, sick, sleep, energy, body, medical, wellness, diet, exercise]
+      patterns: ["feel.*tired", "my.*health"]
+    primary:   [horoscope.health, kundli.house.6]
+    secondary: [kundli.moonSign, panchang.today]
+    exclude:   [horoscope.finance]
+
+  # No 2nd or 11th house context: the Kundli service exposes only houses 6, 7 and 10.
+  # Documented gap — filling it is one registry entry plus one line here.
+  finance:
+    match:
+      keywords: [money, finance, investment, wealth, savings, loan, debt, property, stocks, income]
+      patterns: ["invest.*in", "buy.*property"]
+    primary:   [horoscope.finance]
+    secondary: [kundli.dasha, kundli.lagna]
+    exclude:   [horoscope.relationship]
+
+  # Exists because two of the assignment's sample questions carry no domain keyword
+  # and are temporally scoped.
+  daily_summary:
+    match:
+      keywords: [today, tomorrow, summarize, summary, guidance, prioritize, priority, week, focus]
+      patterns: ["today.*guidance", "summar.*today", "prioriti.*(week|today)"]
+    primary:   [panchang.today]
+    secondary: [horoscope.career, horoscope.health, kundli.dasha]
+    exclude:   []
+
+  general:
+    match:
+      keywords: []
+      patterns: []
+    primary: [kundli.lagna, kundli.moonSign, kundli.dasha, kundli.house.6, kundli.house.7,
+              kundli.house.10, horoscope.career, horoscope.finance, horoscope.health,
+              horoscope.relationship, panchang.today]
+    secondary: []
+    exclude:   []

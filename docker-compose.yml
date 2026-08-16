@@ -1,0 +1,15 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: mynaksh
+      POSTGRES_PASSWORD: mynaksh
+      POSTGRES_DB: mynaksh
+    # Host port is overridable via DB_PORT for machines where 5432 is taken.
+    ports: ["${DB_PORT:-5432}:5432"]
+    volumes:
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mynaksh"]
+      interval: 3s
+      retries: 10
